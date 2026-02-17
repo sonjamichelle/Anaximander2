@@ -25,12 +25,14 @@
 
 using System;
 using System.Collections.Concurrent;
-using System.Drawing;
 using System.Reflection;
 using Chattel;
 using ChattelAssetTools;
 using InWorldz.Data.Assets.Stratus;
 using log4net;
+using Bitmap = System.Drawing.Bitmap;
+using Color = System.Drawing.Color;
+using Image = System.Drawing.Image;
 
 namespace Anaximander {
 	/// <summary>
@@ -71,7 +73,7 @@ namespace Anaximander {
 				LOG.Warn($"Attempt to inialize the asset reader in the Texture class more than once! Re-initialization ignored.");
 			}
 
-			CSJ2K.Util.BitmapImageCreator.Register();
+			// CSJ2K.Util.BitmapImageCreator.Register(); // This class doesn't exist in CSJ2K 2.0.0.1
 		}
 
 		public static Texture GetByUUID(Guid id) => GetByUUID(id, null);

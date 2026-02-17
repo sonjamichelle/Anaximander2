@@ -16,6 +16,7 @@ For the history buffs: [Anaximander][] was an early Greek scholar and philosophe
 
 At this time, only the following operating systems are being supported and tested, as I am only one guy on one computer:
 
-* Ubuntu Linux 16.04 and newer
+* Ubuntu Linux 22.04 and newer
+* .NET 8.0 runtime required
 
 Open source contributions are very welcome - especially as regards testing and correcting for other operating systems.

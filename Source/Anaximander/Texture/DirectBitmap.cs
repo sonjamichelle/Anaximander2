@@ -24,9 +24,9 @@
 // THE SOFTWARE.
 
 using System;
-using System.Drawing;
-using System.Drawing.Imaging;
 using System.Runtime.InteropServices;
+using Bitmap = System.Drawing.Bitmap;
+using PixelFormat = System.Drawing.Imaging.PixelFormat;
 
 namespace Anaximander {
 	/// <summary>

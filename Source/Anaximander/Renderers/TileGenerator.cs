@@ -24,9 +24,12 @@
 // THE SOFTWARE.
 
 using System;
-using System.Drawing;
-using System.Drawing.Drawing2D;
 using Nini.Config;
+using Bitmap = System.Drawing.Bitmap;
+using Color = System.Drawing.Color;
+using Graphics = System.Drawing.Graphics;
+using Image = System.Drawing.Image;
+using CompositingMode = System.Drawing.Drawing2D.CompositingMode;
 
 namespace Anaximander {
 	public class TileGenerator {

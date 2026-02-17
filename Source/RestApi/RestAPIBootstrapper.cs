@@ -36,7 +36,6 @@ namespace RestApi {
 
 		protected override void ApplicationStartup(Nancy.TinyIoc.TinyIoCContainer container, Nancy.Bootstrapper.IPipelines pipelines) {
 			base.ApplicationStartup(container, pipelines);
-			Nancy.Json.JsonSettings.PrimitiveConverters.Add(new JsonConvertEnum());
 
 			pipelines.OnError += (context, exception) => {
 				LOG.Error($"Unhandled error from '{context.Request.UserHostAddress}' on '{context.Request.Url}': {exception.Message}", exception);

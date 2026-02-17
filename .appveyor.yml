@@ -4,10 +4,9 @@ init:
 - ps: Write-Host "Setting version to '$env:TAG_VERSION'"
 - ps: Update-AppveyorBuild -Version "$env:TAG_VERSION"
 
-
 image:
-- Visual Studio 2017
-- Ubuntu
+- Visual Studio 2022
+- Ubuntu2204
 
 configuration: Release
 
@@ -17,63 +16,40 @@ platform:
 pull_requests:
   do_not_increment_build_number: true
 
-nuget:
-  disable_publish_on_pr: true
-
 skip_commits:
   files:
   - .gitignore
   - LICENSE
   - README.md
+  - INSTALL.md
 
-cache:
-- Source\packages -> Source\**\packages.config
-- '%LocalAppData%\NuGet\Cache'
-
-assembly_info:
-  patch: true
-  assembly_version: '{version}'
-  assembly_file_version: '{version}'
-  assembly_informational_version: '{version}'
+install:
+- ps: |
+    if ($isLinux) {
+      # Install .NET 8 SDK on Ubuntu
+      sh -c 'wget https://packages.microsoft.com/config/ubuntu/22.04/packages-microsoft-prod.deb -O packages-microsoft-prod.deb'
+      sh -c 'sudo dpkg -i packages-microsoft-prod.deb'
+      sh -c 'sudo apt-get update'
+      sh -c 'sudo apt-get install -y dotnet-sdk-8.0 libgdiplus'
+    }
 
 before_build:
 - ps: |
     if ($isLinux) {
-      $env:COMPILED_BY = "Mono"
-      $env:EDITION = "mono"
+      $env:COMPILED_BY = "dotnet8-linux"
+      $env:EDITION = "linux"
     } else {
-      $env:COMPILED_BY = "VS2017"
-      $env:EDITION = "dotnet"
+      $env:COMPILED_BY = "dotnet8-windows"
+      $env:EDITION = "windows"
     }
 - ps: (Get-Content Source\Anaximander\Program.cs) -replace 'COMPILED_BY = "?mono?"', "COMPILED_BY = `"$env:COMPILED_BY`"" | Set-Content Source\Anaximander\Program.cs
 - ps: (Get-Content Source\RollbarCrashReporter\CrashReporter.cs) -replace 'COMPILED_BY = "?mono?"', "COMPILED_BY = `"$env:COMPILED_BY`"" | Set-Content Source\RollbarCrashReporter\CrashReporter.cs
-- nuget restore Source/Anaximander.sln
+- dotnet restore Source/Anaximander.sln
 
-build:
-  project: Source\Anaximander.sln
-  parallel: true
-  verbosity: minimal
-  publish_nuget: false
-  publish_nuget_symbols: false
-
-for:
--
-  matrix:
-    only:
-    - image: Ubuntu
-  build_script:
-  - msbuild Source/Anaximander.sln
+build_script:
+- dotnet build Source/Anaximander.sln --configuration Release --no-restore
 
 after_build:
-- ps: >-
-      if ($env:APPVEYOR_REPO_TAG -eq "true") {
-        (Get-Content bin\Anaximander.exe.config) -replace 'param name="Environment" value="development"', 'param name="Environment" value="production"' | Set-Content bin\Anaximander.exe.config
-        (Get-Content bin\RollbarCrashReporter.exe.config) -replace 'param name="Environment" value="development"', 'param name="Environment" value="production"' | Set-Content bin\RollbarCrashReporter.exe.config
-      }
-      else {
-        (Get-Content bin\Anaximander.exe.config) -replace 'param name="Environment" value="development"', 'param name="Environment" value="test"' | Set-Content bin\Anaximander.exe.config
-        (Get-Content bin\RollbarCrashReporter.exe.config) -replace 'param name="Environment" value="development"', 'param name="Environment" value="test"' | Set-Content bin\RollbarCrashReporter.exe.config
-      }
 - ps: Rename-Item -Path bin -NewName Anaximander2
 
 artifacts:

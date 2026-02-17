@@ -23,8 +23,11 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
 
-using System.Drawing;
 using Nini.Config;
+using Bitmap = System.Drawing.Bitmap;
+using Color = System.Drawing.Color;
+using Graphics = System.Drawing.Graphics;
+using SolidBrush = System.Drawing.SolidBrush;
 
 namespace Anaximander {
 	public class FlatTileRenderer {

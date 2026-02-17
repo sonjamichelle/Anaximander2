@@ -25,7 +25,10 @@
 
 using System;
 using System.Collections.Generic;
-using System.Drawing;
+using Bitmap = System.Drawing.Bitmap;
+using Color = System.Drawing.Color;
+using Graphics = System.Drawing.Graphics;
+using SolidBrush = System.Drawing.SolidBrush;
 
 namespace Anaximander {
 	public class TileTreeNode : IDisposable {

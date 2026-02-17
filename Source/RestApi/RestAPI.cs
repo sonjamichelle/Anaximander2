@@ -63,13 +63,13 @@ namespace RestApi {
 		}
 
 		public RestAPI() {
-			Get["/test"] = _ => {
+			Get("/test", _ => {
 				LOG.Debug($"test called by IP '{Request.UserHostAddress}'.");
 
 				return (Response) "OK";
-			};
+			});
 
-			Post["/updateregion/{uuid}"] = parameters => {
+			Post("/updateregion/{uuid}", parameters => {
 				//this.RequiresHttps();
 				LOG.Debug($"Update region called by IP '{Request.UserHostAddress}' for region id {parameters.uuid}.");
 
@@ -89,9 +89,9 @@ namespace RestApi {
 				_updateRegionDelegate.EndInvoke(_updateRegionDelegate.BeginInvoke(parameters.uuid, changeData, null, null));
 
 				return (Response) HttpStatusCode.NoContent;
-			};
+			});
 
-			Get["/maprules/{uuid?}"] = parameters => {
+			Get("/maprules/{uuid?}", parameters => {
 				if (parameters["uuid"]?.Value == null) {
 					LOG.Debug($"Map rules called by IP '{Request.UserHostAddress}'.");
 				}
@@ -106,7 +106,7 @@ namespace RestApi {
 				var result = _getMapRulesDelegate.BeginInvoke(parameters["uuid"].Value, null, null);
 
 				return _getMapRulesDelegate.EndInvoke(result);
-			};
+			});
 		}
 	}
 }

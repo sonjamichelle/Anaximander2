@@ -25,12 +25,21 @@
 
 using System;
 using System.Collections.Generic;
-using System.Drawing;
-using System.Drawing.Drawing2D;
 using System.Linq;
 using DataReader;
 using Nini.Config;
 using OpenMetaverse;
+using Bitmap = System.Drawing.Bitmap;
+using Color = System.Drawing.Color;
+using Graphics = System.Drawing.Graphics;
+using Image = System.Drawing.Image;
+using Point = System.Drawing.Point;
+using SolidBrush = System.Drawing.SolidBrush;
+using CompositingMode = System.Drawing.Drawing2D.CompositingMode;
+using CompositingQuality = System.Drawing.Drawing2D.CompositingQuality;
+using InterpolationMode = System.Drawing.Drawing2D.InterpolationMode;
+using PixelOffsetMode = System.Drawing.Drawing2D.PixelOffsetMode;
+using SmoothingMode = System.Drawing.Drawing2D.SmoothingMode;
 
 namespace Anaximander {
 	public class OBBRenderer : IRegionRenderer {
